@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './App.css'
+const React = require('react');
+const {useState, useRef} =  React;
 
 const MyName2=()=>{ //hooks 사용
 
@@ -9,7 +9,7 @@ const MyName2=()=>{ //hooks 사용
     const [result,setResult]=React.useState('');
     const onRef = React.useRef(null);
 
-
+    
 
     const onChange=(e)=>{
         setvalue(e.target.value);
@@ -31,16 +31,16 @@ const MyName2=()=>{ //hooks 사용
     }
 
     return (
-    <div>
+    <>
        {first}곱하기{second}는?
        <form onSubmit={onSubmit}>
             <input ref={onRef} onChange={onChange} type="number" value={value} />
-            <button>입력!</button>
+            <button type="submit">입력!</button>
         </form>
         <div id="result">{result}</div>
 
-    </div>
+    </>
     );
 }
 
-export default MyName2;
+module.exports=MyName2;
