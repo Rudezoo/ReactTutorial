@@ -8,7 +8,7 @@ module.exports={
     devtool: 'eval',
     
     entry: {
-        app : ['./client.jsx','./WordRelay.jsx']
+        app : ['./client.jsx','./script/WordRelay.jsx']
     }, //입력
     output: {
         path : path.join(__dirname,'dist'),
