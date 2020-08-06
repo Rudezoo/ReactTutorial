@@ -1,5 +1,5 @@
 /** @type {import('webpack').Configuration} */ //for autocomplete
-
+//노드가 돌리므로 require으로 처리
 const webpack = require("webpack");
 const path=require('path');
 
@@ -27,7 +27,7 @@ module.exports={
                     debug : true,
                 }],
                  '@babel/preset-react'],
-                plugins: ['@babel/plugin-proposal-class-properties'],
+                plugins: ['@babel/plugin-proposal-class-properties','react-hot-loader/babel'],
             },
         },
         {
@@ -40,7 +40,8 @@ module.exports={
     ],
     output: {
         path : path.join(__dirname,'dist'),
-        filename : 'app.js'
+        filename : 'app.js',
+        //publicPath: '/dist/' //경로설정
         
     }, //출력
 };
