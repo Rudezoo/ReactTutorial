@@ -1,12 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import WordRelay from './script/WordRelay/WordRelay';
-import NumberBaseball from './script/NumberBaseball/NumberBaseball'
-//const WordRelay=require('./script/WordRelay');
-//const GuGudanHook =require('./script/gugudanHook'); //노드모듈 문법
+
 import 'bootstrap/dist/css/bootstrap.css';
-
 import {hot} from 'react-hot-loader/root'
-const Hot=hot(NumberBaseball);
+import Games from './script/Games'
+const Hot=hot(Games);
 
-ReactDOM.render(<div><NumberBaseball/></div>,document.querySelector('#root'));
+ReactDOM.render(<div><Hot/></div>,document.querySelector('#root'));

@@ -1,0 +1,15 @@
+nav ul{
+    padding-top: 20px;
+    font-weight: bold;
+    list-style: none;
+    float: left;    
+}
+
+header{
+    text-align: center;
+    border-bottom: 1px gray solid;
+}
+
+#gamescreen{
+    padding-top: 20px;
+}
