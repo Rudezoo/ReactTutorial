@@ -1,8 +1,26 @@
+nav{
+    width: 150px;
+}
+
 nav ul{
+    padding-left: 1px;
     padding-top: 20px;
     font-weight: bold;
     list-style: none;
-    float: left;    
+}
+nav ul li{
+    text-align: center;
+    background-color: black;
+}
+
+nav ul li .menubar{
+    color:white;
+    display: block;
+}
+
+nav ul li .menubar:hover {
+    text-decoration: none;
+    color:red;
 }
 
 header{

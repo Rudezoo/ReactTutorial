@@ -1,12 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useMemo} from 'react';
 import Button from 'react-bootstrap/Button'
 import '../../node_modules/bootstrap/dist/css/bootstrap.css'
 import Try from './Try'
 import './Numberbaseball.css'
 
-function RandomNum(){
-    var Numbers = [];
-
+function RandomNum(Numbers){
+    console.log('random');
     while (Numbers.length < 4) {
         var Number = Math.floor(Math.random() * 9 + 1);
         if (Numbers.length == 0) {
@@ -23,7 +22,9 @@ const NumBaseball=()=>{
 
     const [hint,setHint]=React.useState('숫자야구!');
     const [value, setValue]=React.useState('');
-    const [ball, setBall] = React.useState(RandomNum());
+    const Numbers=[];
+    const randoms=useMemo(()=>RandomNum(Numbers),Numbers);
+    const [ball, setBall] = React.useState(randoms);
     const [Result,setResult]=React.useState('');
     const [trys,setTrys]=React.useState([]);
     const [btnstate,setbtnstate]=React.useState(true);

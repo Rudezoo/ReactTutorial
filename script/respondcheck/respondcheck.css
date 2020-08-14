@@ -1,0 +1,23 @@
+#screen{
+    margin: 30px;
+    height: 300px;
+    width: 300px;
+    text-align: center;
+    user-select: none;
+}
+#screen.waiting{
+    background-color: aqua;
+}
+#screen.ready {
+    background-color: red;
+    color: white;
+}
+#screen.click {
+    background-color: green;
+}
+
+
+#resultpage{
+    float: left;
+    font-weight: bold;
+}
