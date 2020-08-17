@@ -64,7 +64,7 @@ const Respondcheck = () => {
                     {
                         result.map((v, i) => {
                             return (
-                              <Results key={v+i} index={i} value={v}></Results>
+                              <Results key={v} index={i} value={v}></Results>
                             );
                         })
                     }            
