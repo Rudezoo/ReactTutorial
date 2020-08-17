@@ -33,6 +33,10 @@ module.exports={
         {
             test: /\.css$/,
             loaders : ['style-loader','css-loader?url=false'],
+        },
+        {
+            test: /\.txt$/i,
+            use: 'raw-loader',
         }],
     },
     plugins:[

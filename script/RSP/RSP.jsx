@@ -1,4 +1,4 @@
-import React,{useState,useRef,useEffect}from 'react';
+import React,{useState,useRef,useEffect,memo}from 'react';
 import './RSP.css';
 import Button from 'react-bootstrap/Button';
 
@@ -21,7 +21,7 @@ const Computerchoice=(imgCoord)=>{
     return Object.keys(rspCoords).find(key=>rspCoords[key]===imgCoord);
 }
 
-const RSP=()=>{
+const RSP=memo(()=>{
 
     const [result, setresult] = useState('');
     const [score, setscore] = useState(0);
@@ -118,7 +118,7 @@ const RSP=()=>{
             
         </>
     );
-}
+});
 
 
 export default RSP;
