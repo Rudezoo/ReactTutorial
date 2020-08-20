@@ -10,6 +10,7 @@ import NumBaseball from './NumberBaseball/NumberBaseball';
 import Respondcheck from './respondcheck/respondcheck';
 import RSP from './RSP/RSP';
 import Hangman from './Hangman/Hangman';
+import Lotto from './Lotto/Lotto';
 
 const Games = () => {
     return (
@@ -24,6 +25,7 @@ const Games = () => {
                             <li><Link to="/Respond-Check" className="menubar">반응속도</Link></li>
                             <li><Link to="/RSP" className="menubar">가위바위보</Link></li>
                             <li><Link to="/Hang-man" className="menubar">행맨</Link></li>
+                            <li><Link to="/Lotto" className="menubar">로또</Link></li>
                     </ul>  
                     </nav>
                                              
@@ -35,6 +37,7 @@ const Games = () => {
                     <Route path="/Respond-Check" component={Respondcheck}/>
                     <Route path="/RSP" component={RSP}/>
                     <Route path="/Hang-man" component={Hangman} />
+                    <Route path="/Lotto" component={Lotto} />
                 </div>
             </div>
             

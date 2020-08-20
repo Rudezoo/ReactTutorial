@@ -44,8 +44,8 @@ const NumBaseball=()=>{
                 setinputstate(true);
             } else {
                 const inputNum = value.split("");
-                var strike = 0;
-                var balls = 0;
+                let strike = 0;
+                let balls = 0;
 
                 if (trys.length >= 9) {
                     setHint('실패! 정답은 '+ball+'이였습니다!');

@@ -1,4 +1,4 @@
-import React,{useState,useRef, useEffect} from 'react';
+import React,{useState,useRef, useEffect,memo,useMemo} from 'react';
 import txt from './Words.txt'
 import './Hangman.css';
 import Under from './underline';
@@ -19,53 +19,119 @@ const position={
 
 const Words=(file)=>{
     var word=[];
-
-    word=file.split(';');
-
+    word=file.split(':');
     return word;
-
 }
-const makemap=(array)=>{
-    const temp=[];
-    var size=array.length;
 
-    for(var i=0;i<size;i++){
-        temp[i]=i;
-    }
+const getWord=()=>{
+    let save; 
+    let temp;
+     
+    save=Words(txt);
+    temp=save[Math.floor(Math.random()*3)].split("");
+    let empty=[];
 
-    console.log(size);
-
+    temp.forEach((v)=>{
+        return empty.push(' ');
+    });
+    
+    /*for (let i = 0; i < temp.length; i++) {
+        empty.push(' ');
+    }*/
     return temp;
 }
 
+const getEmpty=(word)=>{
+    let empty=[];
 
-const Hangman=()=>{
-    
-    //const [GameWords, setGameWords] = useState(Words(txt));  
-    const [imgCoord, setimgCoord] = useState(position[1]);
-    
-    var save; 
-    var temp;
-    //var result=[];   
-    save=Words(txt);
-    temp=save[Math.floor(Math.random()*3)];
-    var empty=[];
+    word.forEach((v)=>{
+        return empty.push(' ');
+    });
 
-    for (var i = 0; i < temp.length; i++) {
-        empty.push('?');
-    }
+    return empty;
+}
+
+const Checking=(Word,value)=>{
+    let index=[];
+    Word.forEach((v,i)=>{
+        return (
+            v===value?index.push(i):null
+        );
+    });
+    return index;
+    
+}
+
+
+const Hangman=memo(()=>{
+    
+    //const [GameWords, setGameWords] = useState(Words(txt)); 
+    
+     const [pos, setpos] = useState(1);
+     
   
     //result=save[Math.floor(Math.random()*2)];
+    const getwd=useMemo(()=>getWord(),[]);
+    const getEpy=useMemo(()=>getEmpty(getwd),[]);
+
+    const [result, setresult] = useState(getEpy);
+    const [value, setvalue] = useState('');
+    const [disable, setdisable] = useState(false);
+
+    const point=useRef();
+   
+    useEffect(()=>{
+        point.current.focus();
+        return()=>{
+
+        }
+    },[]);
+
+    const OnSubmit=(e)=>{
+        e.preventDefault();
+
+        setvalue('');
+
+        let index=Checking(getwd,value);
+
+        if(index.length>0){
+            index.map((v)=>{
+                return getEpy[v]=getwd[v];
+            });
+
+            if(!result.find((v)=>{
+                return (v===' ');
+            })){
+                setresult(result);
+                setvalue('Win');
+            }
+
+        }else{
+            if(pos===9){
+                setresult([]);
+                setvalue('Game over');
+                setpos(pos+1);
+                setdisable(true);
+            }else{
+                setpos(pos+1);
+            }
+        }
+
+        point.current.focus();
+
+    }
+  
     
-    const [result, setresult] = useState(empty);
-   
-   
 
-    const onClickBtn=()=>{
-        result[3]="i";
-        setresult((prevresult)=>[...prevresult]);
+    const OnChange=(e)=>{
+        setvalue(e.target.value);
+        if(e.target.value.length>1){
+            setvalue(e.target.value.slice(0,1));
+        }
 
-        console.log(result);
+        if(parseInt(e.target.value)>=0 && parseInt(e.target.value)<=10 ){
+            setvalue('');
+        }
     }
 
     return(
@@ -77,12 +143,12 @@ const Hangman=()=>{
                 {
                     backgroundImage:'url(../../img/hangman.png)',
                     //-4,-287,-570,-833,-1138,-1421,-1704,-1987,-2270,-2553
-                    backgroundPosition:imgCoord,
+                    backgroundPosition:position[pos],
                     
                 }
             }></div>
             <div>
-                {result}
+                
             </div>
 
             <div>
@@ -96,10 +162,14 @@ const Hangman=()=>{
                 }
             </div>
             <div>
-                <Button onClick={onClickBtn}>Check</Button>
+                <form onSubmit={OnSubmit}>
+                    <input type="text" value={value} onChange={OnChange} ref={point}></input>
+                    <Button type="submit" disabled={disable}>입력</Button>
+                </form>
+                
             </div>
         </>
     );
-}
+});
 
 export default Hangman;

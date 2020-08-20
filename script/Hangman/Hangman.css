@@ -6,8 +6,9 @@
 
 
 #under{
-    font-size:50px;
-    text-decoration: underline;
+    font-size:50px; 
+    border-bottom: 3px black solid;
+   
 }
 
 #space{

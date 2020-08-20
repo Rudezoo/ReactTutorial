@@ -1,1 +1,1 @@
-apple;blueberry;cherry
+apple:pear:chestnut:pinenut:walnut:acorn:tangerine:strawberry:pineapple:grape:peach:apricot:Japaneseapricot:plum:kiwi:tomato:blueberry:cherry:banana:orange:watermelon:melon:orientalmelon:mango:lemon:pomegranate:grapefruit:jujube:persimmon:driedpersimmon:litchi:quince:mulberry:citron:fig

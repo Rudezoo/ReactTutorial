@@ -1,10 +1,11 @@
-import React from 'react'
+import React ,{memo} from 'react'
 
-const Under=(props)=>{
+const Under=memo((props)=>{
 
     const {v}=props;
+
     return(
-    <>
+    <>  &nbsp;
         <span id="under">
             {v}
         </span>
@@ -17,6 +18,6 @@ const Under=(props)=>{
     </>  
     
     );
-}
+});
 
 export default Under;

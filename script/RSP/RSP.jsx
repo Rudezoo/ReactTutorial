@@ -32,7 +32,7 @@ const RSP=memo(()=>{
     const [buttondisabled, setbuttondisabled] = useState(false);
 
     const Interval=useRef();
-    
+    const timeout=useRef();
 
     const ChangeHand=()=>{
         if(imgCoord===rspCoords.가위){
@@ -53,20 +53,19 @@ const RSP=memo(()=>{
         return () => { //componentWillUnmount() 역할
             clearInterval(Interval.current);
         };
-    }, [imgCoord]);
+    }, [imgCoord]); //배열에는 실행할 값나 넣어라
 
     const onClickBtn = (choice) => () => {
+        
+        clearInterval(Interval.current);
         setretry(true);
         setbuttondisabled(true);
-        clearInterval(Interval.current);
-    
+
         
         var mychoice=scores[choice];
         var computerchoices=scores[Computerchoice(imgCoord)];
         var diff=mychoice-computerchoices;
-        console.log(mychoice);
-        console.log(computerchoices);
-        console.log(diff);
+
         if(diff===0){
             setresult("비겼습니다!");
         }else if(diff===-1 || diff===2){
@@ -76,6 +75,12 @@ const RSP=memo(()=>{
             setresult("졌습니다!");
             setcomputerscore(computerscore+1);
         }
+        timeout.current=setTimeout(()=>{
+            Interval.current = setInterval(ChangeHand, 100);
+            setbuttondisabled(false);
+            setretry(false);
+        },1000);
+
     }
     const Retry=()=>{
         Interval.current = setInterval(ChangeHand, 100);
@@ -102,7 +107,7 @@ const RSP=memo(()=>{
                 <Button id='p' onClick={onClickBtn('보')} disabled={buttondisabled}>보</Button>
 
                 {
-                    retry? <Button onClick={Retry}>Retry</Button>:null
+                    /*retry? <Button onClick={Retry}>Retry</Button>:null*/
                 }
             </div>
             <div id='result'>

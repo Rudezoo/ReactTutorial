@@ -1,0 +1,38 @@
+#circle{
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    text-align: center;
+    padding-top: 12.5px;
+    
+    color:white;
+
+    display: inline-block;
+
+    margin-right: 10px;
+    margin-bottom: 20px;
+
+    font-weight: bold;
+}
+
+#circle.red{
+    background-color: red;
+}
+#circle.orange{
+    background-color: orange;
+}
+#circle.green{
+    background-color: green;
+}
+#circle.blue{
+    background-color: blue;
+}
+#circle.yellow{
+    background-color: yellow;
+    color:black;
+}
+
+#circle.Bonus{
+    background-color: aquamarine;
+    color:black;
+}
