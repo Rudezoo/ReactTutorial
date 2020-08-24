@@ -7,6 +7,7 @@
   "dependencies": {
     "bootstrap": "^4.5.1",
     "css-loader": "^4.2.0",
+    "immer": "^7.0.7",
     "less-loader": "^6.2.0",
     "raw-loader": "^4.0.1",
     "react": "^16.13.1",

@@ -1,0 +1,30 @@
+Table{
+    border-collapse: collapse;
+    
+}
+
+Td{
+    border : 1px black solid;
+    height: 50px;
+    width: 50px;
+
+    text-align: center;
+}
+
+.first:hover{
+    background-color: blue;
+}
+
+.second:hover{
+    background-color: red;
+}
+
+.Result{
+    color:white;
+    background-color: black;
+    text-align:center;
+}
+#screen{
+    position: relative;
+
+}
