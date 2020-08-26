@@ -36,6 +36,8 @@ const InitialState={
     halted : false,
 };
 
+
+
 const plantMine=(row,col,mine)=>{
     console.log(row,col,mine);
 
@@ -100,13 +102,31 @@ const reducer=(state,action)=>{
             return produce(state,draft=>{
                 draft.tableData=plantMine(action.row,action.col,action.mine);
                 draft.halted=false;
+                draft.result='';
+                temp=[];
             });
            
         case OPEN_CELL:
-            return produce(state,draft=>{
-                draft.tableData[action.row][action.col]=CODE.OPEND;
+             const tableData=[...state.tableData];
+            tableData[action.row]=[...state.tableData[action.row]]; 
+            openblank(tableData,action.row,action.col);
+/*             for(let i=0;i<temp.length;i++){
+                tableData[temp[i][0]][temp[i][1]]=CODE.OPEND;   
+            } */
+                    
+
+/*             return{
+                ...state,
+                tableData,
+                
+            }; */
+             return produce(state,draft=>{
+                for(let i=0;i<temp.length;i++){
+                    draft.tableData[temp[i][0]][temp[i][1]]=CODE.OPEND;   
+                }
+                
             });
-        
+         
         case CLICK_MINE:
             return produce(state,draft=>{
                 draft.tableData[action.row][action.col]=CODE.CLICKED_MINE;
@@ -147,7 +167,42 @@ const reducer=(state,action)=>{
             return state;
     }
 }
+let temp=[];
+const openblank=(data,row,col)=>{
+    let maxrow=data.length;
+    let maxcol=data[0].length;
+  
 
+    console.log(row+","+col);
+
+     if((row>=0 && col>=0)&&(maxrow>row && maxcol>col)){
+        if(data[row][col]===CODE.NORMAL && (!findDupli([row,col]))){
+            temp.push([row,col]);
+            openblank(data,row+1,col);
+            openblank(data,row,col+1);
+            openblank(data,row-1,col);
+            openblank(data,row,col-1);
+ 
+ 
+        }else{
+            return;
+        }
+
+        
+    }else{
+        return;
+    }  
+    console.log(temp);
+
+}
+const findDupli=(value)=>{
+    for(let i=0;i<temp.length;i++){
+        if(temp[i][0]===value[0] && temp[i][1]===value[1]){
+            return true;
+        }
+    }
+    return false;
+}
 
 const Mine_find=memo(()=>{
 
