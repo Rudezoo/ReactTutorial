@@ -5,8 +5,10 @@ import {CLICK_CELL} from './TicTacToe';
 const Td=memo((props)=>{
 
     const {boxData,rowIndex,cellIndex,dispatch}=props;
-
+    
     const onClickTd=useCallback(()=>{
+
+        console.log("tdrerender");
 
         if(boxData){
             return;

@@ -12,6 +12,7 @@ import RSP from './RSP/RSP';
 import Hangman from './Hangman/Hangman';
 import Lotto from './Lotto/Lotto';
 import TicTacToe from "./TicTacToe/TicTacToe";
+import Mine_find from './Mine_find/Mine_find';
 
 const Games = () => {
     return (
@@ -28,6 +29,7 @@ const Games = () => {
                             <li><Link to="/Hang-man" className="menubar">행맨</Link></li>
                             <li><Link to="/Lotto" className="menubar">로또</Link></li>
                             <li><Link to="/TicTacToe" className="menubar">틱택토</Link></li>
+                            <li><Link to="/Mine_find" className="menubar">지뢰찾기</Link></li>
                     </ul>  
                     </nav>
                                              
@@ -41,6 +43,7 @@ const Games = () => {
                     <Route path="/Hang-man" component={Hangman} />
                     <Route path="/Lotto" component={Lotto} />
                     <Route path="/TicTacToe" component={TicTacToe} />
+                    <Route path="/Mine_find" component={Mine_find} />
                 </div>
             </div>
             

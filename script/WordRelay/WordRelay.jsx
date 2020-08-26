@@ -1,8 +1,8 @@
-import React,{ useState } from 'react';
+import React,{ useState ,memo} from 'react';
 //const Button=require('reactstrap');
-import  Button  from 'react-bootstrap/Button';
+import  {Button}  from 'antd';
 import './WordRelaycss.css'
-const WordRelay = ()=>{
+const WordRelay = memo(()=>{
 
     const [word,setWord]=useState('김주언');
     const [value,setValue]=useState('글자를 입력하세요');
@@ -32,13 +32,13 @@ const WordRelay = ()=>{
         <div className="article">
             <form onSubmit={onSubmit}>
                 <input className="wordinput" ref={onRef} onChange={onChange} type='text' value={value} ></input>
-                <Button variant="primary" type="submit">입력!!</Button>
+                <Button type="primary" htmlType="submit">입력!!</Button>
             </form>       
             {result}
         </div>
     </React.Fragment>    
         );
-}
+});
 
 //module.exports=WordRelay;
 export default WordRelay;
