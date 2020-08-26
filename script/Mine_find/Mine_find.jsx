@@ -52,9 +52,6 @@ const plantMine=(row,col,mine)=>{
         let temprow=Math.floor(Math.random()*row);
         let tempcol=Math.floor(Math.random()*col);
 
-
-        console.log("temp : "+temprow+","+tempcol);
-
         if(data[temprow][tempcol]===-1){
             data[temprow][tempcol]=-7;
             count=count+1;
@@ -122,7 +119,8 @@ const reducer=(state,action)=>{
             }; */
              return produce(state,draft=>{
                 for(let i=0;i<temp.length;i++){
-                    draft.tableData[temp[i][0]][temp[i][1]]=CODE.OPEND;   
+                    
+                    draft.tableData[temp[i][0]][temp[i][1]]=CODE.OPEND;  
                 }
                 
             });
@@ -171,9 +169,6 @@ let temp=[];
 const openblank=(data,row,col)=>{
     let maxrow=data.length;
     let maxcol=data[0].length;
-  
-
-    console.log(row+","+col);
 
      if((row>=0 && col>=0)&&(maxrow>row && maxcol>col)){
         if(data[row][col]===CODE.NORMAL && (!findDupli([row,col]))){
@@ -192,7 +187,6 @@ const openblank=(data,row,col)=>{
     }else{
         return;
     }  
-    console.log(temp);
 
 }
 const findDupli=(value)=>{
@@ -211,6 +205,9 @@ const Mine_find=memo(()=>{
     const {tableData,halted,timer,result}=state;
 
     const value=useMemo(()=>({tableData,halted,dispatch}),[tableData,halted]); //dispatch는 항상 같다
+
+
+
 
     return (
         <TableContext.Provider value={value}>
