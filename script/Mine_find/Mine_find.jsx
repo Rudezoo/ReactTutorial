@@ -1,4 +1,4 @@
-import React,{useReducer,createContext,useMemo,memo} from 'react';
+import React,{useReducer,createContext,useMemo,memo, useEffect,useRef} from 'react';
 import Table from './Table'
 import Set from './Set';
 import produce from 'immer';
@@ -16,6 +16,9 @@ export const CLICK_MINE='CLICK_MINE';
 export const MAKE_FLAG='MAKE_FLAG';
 export const MAKE_QUE='MAKE_QUE';
 export const MAKE_NORMAL='MAKE_NORMAL';
+export const GAME_END='GAME_END';
+
+export const INCRE_TIMER='INCRE_TIMER';
 
 export const CODE={
     MINE:-7,
@@ -33,10 +36,9 @@ const InitialState={
     tableData:[],
     timer:0,
     result : '',
-    halted : false,
+    halted : true,
+    MineLocation:[],
 };
-
-
 
 const plantMine=(row,col,mine)=>{
     console.log(row,col,mine);
@@ -87,6 +89,19 @@ const plantMine=(row,col,mine)=>{
     return data;
 }
 
+const FindMineLocation=(Table)=>{
+    let Mineloc=[];
+    for(let i=0;i<Table.length;i++){
+        for(let j=0;j<Table[0].length;j++){
+            if(Table[i][j]===CODE.MINE){
+                Mineloc.push([i,j]);
+            }
+        }
+    }
+   
+    return Mineloc;
+}
+
 const reducer=(state,action)=>{
     switch(action.type){
 
@@ -98,7 +113,9 @@ const reducer=(state,action)=>{
             }; */
             return produce(state,draft=>{
                 draft.tableData=plantMine(action.row,action.col,action.mine);
+                draft.MineLocation=FindMineLocation(draft.tableData);
                 draft.halted=false;
+                draft.timer=0;
                 draft.result='';
                 temp=[];
             });
@@ -130,6 +147,7 @@ const reducer=(state,action)=>{
                 draft.tableData[action.row][action.col]=CODE.CLICKED_MINE;
                 draft.result='펑';
                 draft.halted=true;
+
             });
 
         case MAKE_FLAG:
@@ -160,19 +178,67 @@ const reducer=(state,action)=>{
                 }
                 
             });
+
+         case GAME_END:
+            return produce(state,draft=>{
+                draft.result='승리!';
+                draft.halted=true;
+            });
+
+         case INCRE_TIMER:
+            return {
+                ...state,
+                timer : state.timer +1,  
+            };
+                                
                 
         default:
             return state;
     }
 }
 let temp=[];
+const checkaround=(table,row,col)=>{
+    if ((row+1<table.length)&&((table[row + 1][col] === CODE.MINE))) {
+        return true;
+    }
+    if ((col+1<table.length)&&((table[row][col+1] === CODE.MINE))) {
+        return true;
+    }
+    if ((row-1>=0)&&((table[row-1][col] === CODE.MINE))) {
+        return true;
+    }
+    if ((col-1>=0)&&((table[row][col-1] === CODE.MINE))) {
+        return true;
+    }
+    if ((row+1<table.length)&&(col+1<table.length)&&((table[row + 1][col+1] === CODE.MINE))) {
+        return true;
+    }
+    if ((row-1>=0)&&(col-1>=0)&&((table[row-1][col-1] === CODE.MINE))) {
+        return true;
+    }
+    if ((row+1<table.length)&&(col-1>=0)&&((table[row + 1][col-1] === CODE.MINE))) {
+        return true;
+    }
+    if ((row-1>0)&&(col+1<table.length)&&((table[row- 1][col+1] === CODE.MINE))) {
+        return true;
+    }  
+
+    return false;
+}
 const openblank=(data,row,col)=>{
     let maxrow=data.length;
     let maxcol=data[0].length;
 
      if((row>=0 && col>=0)&&(maxrow>row && maxcol>col)){
         if(data[row][col]===CODE.NORMAL && (!findDupli([row,col]))){
+            
             temp.push([row,col]);
+            
+            if(checkaround(data,row,col)){
+                return;
+            }
+
+            
             openblank(data,row+1,col);
             openblank(data,row,col+1);
             openblank(data,row-1,col);
@@ -202,11 +268,52 @@ const Mine_find=memo(()=>{
 
 
     const [state,dispatch]=useReducer(reducer,InitialState);
-    const {tableData,halted,timer,result}=state;
+    const {tableData,halted,timer,result,MineLocation}=state;
 
     const value=useMemo(()=>({tableData,halted,dispatch}),[tableData,halted]); //dispatch는 항상 같다
 
 
+    const timeout=useRef();
+
+    const GameEnd=()=>{
+        dispatch({type:GAME_END});
+    }
+
+    useEffect(()=>{
+        
+        let checkloc=[];
+        let allfind=false;
+        checkloc=MineLocation.map((v)=>{
+            return (tableData[v[0]][v[1]]===CODE.FLAG_MINE);
+        });
+
+       console.log(checkloc);
+
+       allfind=checkloc.every((v)=>{
+           return v===true;
+       });
+
+       console.log(allfind);
+
+       if(allfind&&checkloc.length>0){
+           GameEnd();
+       }
+
+    },[tableData]);
+
+    useEffect(()=>{
+
+        if(!halted){
+                    timeout.current=setInterval(()=>{
+                dispatch({type:INCRE_TIMER});
+            },1000);
+           
+        }
+        return()=>{
+                    clearInterval(timeout.current);
+                }
+                   
+    },[halted]);
 
 
     return (
@@ -215,14 +322,14 @@ const Mine_find=memo(()=>{
             <Set></Set>
 
             <div>
-                {state.timer}
+                {timer}
             </div>
 
             <div>
                  <Table></Table>
             </div>
             <div>
-                {state.result}
+                {result}
             </div>
            
         </TableContext.Provider>
